@@ -1,17 +1,11 @@
-import org.w3c.dom.ls.LSInput;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-//        Scanner scanner = new Scanner(System.in);
-//        String s = scanner.nextLine();
 
         List<Materia> materias = new ArrayList<>();
 
@@ -76,14 +70,74 @@ public class Main {
         robertoGomez.materiasAprobadas.add(baseDeDatos1);
         alumnos.add(robertoGomez);
 
-        List<Inscripcion> inscripciones = cargarInscripciones(materias, alumnos);
+//        List<Inscripcion> inscripciones = cargarInscripciones(materias, alumnos);
+
+
+
+        /*
+        Lista<Clase1> -> Lista<Clase2>
+        Comparar con Lista<Clase3> -> Clase2
+
+        Clase1 : Ronda      -> Alumno
+        Clase2 : Partido    -> Materia
+        Clase3 : Pronostico -> Profesor
+         */
+
+        // Cuantos alumnos tuvo cada profesor
+
+        List<Profesor> profesores = new ArrayList<>();
+        profesores.add(new Profesor("Pepe", "Matemática II", 2));
+        profesores.add(new Profesor("Roberto", "Matemática I", 2));
+        profesores.add(new Profesor("Mariana", "Base de datos I", 2));
+        profesores.add(new Profesor("Agustina", "Base de datos III", 2));
+        profesores.add(new Profesor("Rogelio", "Programación I", 2));
+        profesores.add(new Profesor("Francisco", "Programación III", 2));
+
+        for (int p = 0; p < profesores.size(); p++) {
+            Profesor esteProfesor = profesores.get(p);
+            int sumaAlumnos = 0;
+            for (int a = 0; a < alumnos.size(); a++) {
+                Alumno esteAlumno = alumnos.get(a);
+                for (int m = 0; m < esteAlumno.materiasAprobadas.size(); m++) {
+                    Materia estaMateria = esteAlumno.materiasAprobadas.get(m);
+
+                    if (esteProfesor.materia.equals(estaMateria.nombre)) {
+                        sumaAlumnos++;
+                    }
+                }
+            }
+            System.out.println("El profesor " + esteProfesor.nombre + " tuvo " + sumaAlumnos + " alumnos.");
+        }
+
+
+
+
+
+        /*
+Clase del 18/04:
+
+if (quierenPresentar) {
+    Presentan();
+    if (estaTodoBien) {
+        Aprueban();
+    }
+    else {
+        Devolucion();
+    }
+}
+
+
+         */
+
+
+
 
     }
 
     public static List<Inscripcion> cargarInscripciones(List<Materia> materias, List<Alumno> alumnos) {
         List<Inscripcion> inscripciones = new ArrayList<>();
         try {
-            String deDondeCargar = "src/inscripciones.scv";
+            String deDondeCargar = "src/inscripciones2.scv";
             for (String linea : Files.readAllLines(Paths.get(deDondeCargar))) {
                 String[] lineaSeparada = linea.split(";");//  { "José Rodriguez","001","Programación I" }
 
